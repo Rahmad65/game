@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Xvlover Game Hub • DUNIA GAMES</title>
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --card: #12121a;
+            --gold: #d4af37;
+            --gold2: #f0c75e;
+            --accent: #6c5ce7;
+            --accent2: #a29bfe;
+            --pink: #ff6b9d;
+            --text: #e8e6f0;
+            --sub: #8e8ca0;
+            --danger: #ff6b6b;
+            --success: #2ed573;
+            --border: rgba(255, 255, 255, 0.06);
+            --glass: rgba(18, 18, 26, 0.85);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            color: var(--text);
+            background-image: radial-gradient(ellipse at top, #1a1a2e 0%, #0a0a0f 60%),
+                radial-gradient(ellipse at bottom right, #2a1a3e 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--gold);
+            border-radius: 50%;
+            animation: floatUp 8s infinite ease-in;
+            opacity: 0;
+        }
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.2;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .app {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 540px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0.2rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--gold), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 20px rgba(108, 92, 231, 0.5);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%,
+            100% {
+                box-shadow: 0 4px 20px rgba(108, 92, 231, 0.4);
+            }
+            50% {
+                box-shadow: 0 4px 35px rgba(108, 92, 231, 0.8);
+            }
+        }
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.1rem;
+            background: linear-gradient(135deg, var(--gold2), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header-actions {
+            display: flex;
+            gap: 0.4rem;
+            align-items: center;
+        }
+        .lang-select {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 0.4rem 0.6rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            outline: none;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+        }
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            color: var(--text);
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.25s;
+        }
+        .icon-btn:hover {
+            background: var(--accent);
+            border-color: var(--accent2);
+            box-shadow: 0 0 20px rgba(108, 92, 231, 0.5);
+            transform: scale(1.05);
+        }
+        .icon-btn.active {
+            background: var(--accent);
+            border-color: var(--accent2);
+        }
+
+        .card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 1.5rem;
+            padding: 1.2rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s;
+        }
+
+        /* ===== AI BUBBLE SECTION ===== */
+        .ai-bubble-section {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            margin-bottom: 1.2rem;
+            padding: 0 0.3rem;
+        }
+        .wibu-avatar {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--pink), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+        .bubble-box {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border);
+            border-radius: 1rem 1rem 1rem 0.2rem;
+            padding: 0.7rem 1rem;
+            position: relative;
+            flex: 1;
+            min-width: 0;
+        }
+        .bubble-box::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 15px;
+            width: 0;
+            height: 0;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-right: 8px solid rgba(255, 255, 255, 0.1);
+        }
+        .bubble-text {
+            font-size: 0.8rem;
+            color: var(--sub);
+            line-height: 1.4;
+        }
+        .bubble-text strong {
+            color: var(--gold);
+        }
+
+        /* ===== LOBBY ===== */
+        .lobby-title {
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--gold2), var(--pink), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 1px;
+        }
+        .lobby-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.7rem;
+        }
+        .game-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 1.2rem;
+            padding: 1rem 0.7rem;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .game-card:hover::before {
+            opacity: 1;
+        }
+        .game-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(212, 175, 55, 0.25);
+        }
+        .game-icon {
+            font-size: 2.2rem;
+            margin-bottom: 0.4rem;
+        }
+        .game-title {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text);
+        }
+        .game-sub {
+            font-size: 0.65rem;
+            color: var(--sub);
+            margin-top: 0.15rem;
+        }
+        .badge-new {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--pink);
+            color: #fff;
+            font-size: 0.55rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 1rem;
+            font-weight: 700;
+        }
+
+        /* ===== GAME AREA ===== */
+        .hidden {
+            display: none !important;
+        }
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .back-btn {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+        .back-btn:hover {
+            background: var(--accent);
+            border-color: var(--accent2);
+        }
+        .score-display {
+            font-weight: 700;
+            color: var(--gold);
+            font-size: 1rem;
+        }
+        .question-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 1rem;
+            padding: 1.2rem;
+            text-align: center;
+            margin-bottom: 0.8rem;
+            border: 1px solid var(--border);
+        }
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: 0.5px;
+        }
+        .question-clue {
+            font-size: 0.75rem;
+            color: var(--sub);
+            margin-top: 0.3rem;
+        }
+        .question-img {
+            max-width: 100%;
+            border-radius: 0.8rem;
+            margin: 0.5rem 0;
+            border: 2px solid var(--border);
+        }
+        .answer-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.4rem;
+            margin-top: 0.6rem;
+            text-align: left;
+        }
+        .answer-item {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 0.4rem 0.7rem;
+            border-radius: 0.6rem;
+            font-size: 0.75rem;
+            color: var(--sub);
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+        .answer-item.found {
+            background: rgba(46, 213, 115, 0.2);
+            border-color: var(--success);
+            color: var(--success);
+            text-decoration: line-through;
+        }
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .input-game {
+            flex: 2;
+            min-width: 140px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid var(--border);
+            color: #fff;
+            padding: 0.7rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .input-game:focus {
+            border-color: var(--gold);
+        }
+        .input-game::placeholder {
+            color: #555;
+        }
+        .btn {
+            background: linear-gradient(135deg, var(--accent), #5a4fcf);
+            border: none;
+            color: #fff;
+            padding: 0.7rem 1.3rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        .btn:hover {
+            box-shadow: 0 6px 25px rgba(108, 92, 231, 0.5);
+            transform: translateY(-2px);
+        }
+        .btn.gold {
+            background: linear-gradient(135deg, var(--gold), #b8960f);
+        }
+        .btn.gold:hover {
+            box-shadow: 0 6px 25px rgba(212, 175, 55, 0.5);
+        }
+        .btn.pink {
+            background: linear-gradient(135deg, var(--pink), #e05580);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent2);
+        }
+        .feedback {
+            text-align: center;
+            margin-top: 0.7rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            min-height: 1.5rem;
+        }
+        .feedback.correct {
+            color: var(--success);
+        }
+        .feedback.wrong {
+            color: var(--danger);
+        }
+
+        /* ===== AI CHAT ===== */
+        .ai-chat-area {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        .ai-response-box {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 1rem;
+            min-height: 120px;
+            max-height: 250px;
+            overflow-y: auto;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            color: #d0d0e0;
+        }
+        .ai-response-box .user-msg {
+            color: var(--accent2);
+            font-weight: 600;
+        }
+        .ai-response-box .bot-msg {
+            color: #d0d0e0;
+            margin-bottom: 0.6rem;
+        }
+
+        .settings-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .setting-label {
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+        .toggle {
+            width: 50px;
+            height: 28px;
+            background: #333;
+            border-radius: 14px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .toggle.on {
+            background: var(--accent);
+        }
+        .toggle::after {
+            content: '';
+            width: 22px;
+            height: 22px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            transition: left 0.3s;
+        }
+        .toggle.on::after {
+            left: 25px;
+        }
+        select {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            outline: none;
+            cursor: pointer;
+        }
+        .credit-text {
+            text-align: center;
+            font-size: 0.7rem;
+            color: var(--sub);
+            margin-top: 0.5rem;
+        }
+        .credit-text span {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--glass);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 0.7rem 1.5rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 0.8rem;
+            z-index: 999;
+            backdrop-filter: blur(20px);
+            animation: slideDown 0.4s ease, fadeOut 0.4s 2.5s forwards;
+            pointer-events: none;
+        }
+        @keyframes slideDown {
+            from {
+                transform: translateX(-50%) translateY(-80px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(-50%) translateY(0);
+                opacity: 1;
+            }
+        }
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-30px);
+            }
+        }
+
+        @media (max-width: 400px) {
+            .lobby-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.5rem;
+            }
+            .game-card {
+                padding: 0.7rem 0.4rem;
+            }
+            .game-icon {
+                font-size: 1.8rem;
+            }
+            .question-text {
+                font-size: 1rem;
+            }
+            .wibu-avatar {
+                width: 44px;
+                height: 44px;
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="particles" id="particles"></div>
+    <div class="toast hidden" id="toast"></div>
+
+    <div class="app">
+        <!-- HEADER -->
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon">🎮</div>
+                <div class="logo-text">Xvlover Game</div>
+            </div>
+            <div class="header-actions">
+                <select class="lang-select" id="langSelect" onchange="changeLanguage(this.value)">
+                    <option value="id">🇮🇩 ID</option>
+                    <option value="en">🇬🇧 EN</option>
+                    <option value="zh">🇨🇳 中文</option>
+                    <option value="ko">🇰🇷 한국어</option>
+                    <option value="ja">🇯🇵 日本</option>
+                </select>
+                <button class="icon-btn" id="btnSound" title="Sound">🔊</button>
+                <button class="icon-btn" id="btnSettings" title="Pengaturan">⚙️</button>
+            </div>
+        </div>
+
+        <!-- AI BUBBLE -->
+        <div class="ai-bubble-section" id="aiBubble">
+            <div class="wibu-avatar" id="wibuAvatar">🙋</div>
+            <div class="bubble-box">
+                <div class="bubble-text" id="bubbleText">
+                    <strong>Hai!</strong> Selamat datang di <strong>DUNIA GAMES</strong>! Pilih permainan atau tanya aku pakai AI Chat ya~ 😜✨
+                </div>
+            </div>
+        </div>
+
+        <!-- LOBBY -->
+        <div id="lobby">
+            <div class="card">
+                <div class="lobby-title" id="lobbyTitle">🌍 DUNIA GAMES</div>
+                <div class="lobby-grid" id="lobbyGrid">
+                    <div class="game-card" onclick="startGame('tebakkalimat')">
+                        <span class="badge-new">🔥</span>
+                        <div class="game-icon">💬</div>
+                        <div class="game-title" data-key="tebakkalimat">Tebak Kalimat</div>
+                        <div class="game-sub" data-key="tebakkalimat_sub">Lengkapi peribahasa</div>
+                    </div>
+                    <div class="game-card" onclick="startGame('tebakgambar')">
+                        <span class="badge-new">🖼️</span>
+                        <div class="game-icon">🖼️</div>
+                        <div class="game-title" data-key="tebakgambar">Tebak Gambar</div>
+                        <div class="game-sub" data-key="tebakgambar_sub">Tebak dari ilustrasi</div>
+                    </div>
+                    <div class="game-card" onclick="startGame('susunkata')">
+                        <div class="game-icon">🔤</div>
+                        <div class="game-title" data-key="susunkata">Susun Kata</div>
+                        <div class="game-sub" data-key="susunkata_sub">Anagram jadi kata</div>
+                    </div>
+                    <div class="game-card" onclick="startGame('asahotak')">
+                        <div class="game-icon">🧠</div>
+                        <div class="game-title" data-key="asahotak">Asah Otak</div>
+                        <div class="game-sub" data-key="asahotak_sub">Kuis pengetahuan</div>
+                    </div>
+                    <div class="game-card" onclick="startGame('tebaknegara')">
+                        <span class="badge-new">🌏</span>
+                        <div class="game-icon">🌍</div>
+                        <div class="game-title" data-key="tebaknegara">Tebak Negara</div>
+                        <div class="game-sub" data-key="tebaknegara_sub">Tebak dari petunjuk</div>
+                    </div>
+                    <div class="game-card" onclick="startGame('family100')">
+                        <span class="badge-new">👨‍👩‍👧</span>
+                        <div class="game-icon">👨‍👩‍👧‍👦</div>
+                        <div class="game-title" data-key="family100">Family 100</div>
+                        <div class="game-sub" data-key="family100_sub">Tebak semua jawaban</div>
+                    </div>
+                </div>
+            </div>
+            <!-- AI CHAT BUTTON -->
+            <button class="btn pink" style="width:100%;margin-top:0.6rem;font-size:1rem;" onclick="openAiChat()">
+                🤖 ChatGPT 5 Mini — Tanya AI
+            </button>
+            <div class="credit-text">
+                Powered by <span>@pitucode</span> & <span>@naze.biz.id</span> • Xvlover AI Hub
+            </div>
+        </div>
+
+        <!-- GAME AREA -->
+        <div id="gameArea" class="card hidden">
+            <div class="game-header">
+                <button class="back-btn" onclick="backToLobby()">← Lobby</button>
+                <span id="gameTitle" style="font-weight:700;">Game</span>
+                <span class="score-display">⭐ <span id="scoreCount">0</span></span>
+            </div>
+            <div class="question-box" id="questionBox">
+                <div class="question-text" id="questionText">-</div>
+                <div class="question-clue" id="questionClue"></div>
+                <img id="questionImg" class="question-img hidden" alt="Tebak Gambar">
+                <div id="familyAnswers" class="answer-list hidden"></div>
+            </div>
+            <div class="input-group" id="inputGroup">
+                <input type="text" class="input-game" id="answerInput" placeholder="Ketik jawabanmu..." autocomplete="off">
+                <button class="btn gold" onclick="submitAnswer()">Jawab</button>
+            </div>
+            <div class="feedback" id="feedback"></div>
+            <button class="btn btn-outline" style="width:100%;margin-top:0.6rem;" onclick="skipQuestion()">⏭️ Lewati</button>
+        </div>
+
+        <!-- AI CHAT AREA -->
+        <div id="aiChatArea" class="card hidden">
+            <div class="game-header">
+                <button class="back-btn" onclick="backToLobby()">← Lobby</button>
+                <span style="font-weight:700;">🤖 ChatGPT 5 Mini</span>
+                <span></span>
+            </div>
+            <div class="ai-response-box" id="aiResponseBox">
+                <div class="bot-msg">🤖 <strong>AI:</strong> Halo! Ada yang bisa aku bantu? Tanya aja bebas~</div>
+            </div>
+            <div class="input-group" style="margin-top:0.6rem;">
+                <input type="text" class="input-game" id="aiInput" placeholder="Tanya AI..." autocomplete="off">
+                <button class="btn pink" onclick="askAi()">Kirim</button>
+            </div>
+        </div>
+
+        <!-- SETTINGS -->
+        <div id="settingsPanel" class="card hidden">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+                <h3 style="font-size:1.1rem;">⚙️ Pengaturan</h3>
+                <button class="back-btn" onclick="toggleSettings()">✕ Tutup</button>
+            </div>
+            <div class="settings-panel">
+                <div class="setting-row">
+                    <span class="setting-label">🔊 Sound Effect</span>
+                    <div class="toggle on" id="toggleSound" onclick="toggleSound()"></div>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">🎵 Musik Latar</span>
+                    <div class="toggle" id="toggleMusic" onclick="toggleMusic()"></div>
+                </div>
+            </div>
+            <hr style="border-color:var(--border);margin:1rem 0;">
+            <div class="credit-text">
+                🎮 <span>Xvlover Game Hub</span> v2.0 Premium<br>
+                API by <span>@pitucode</span> & <span>@naze.biz.id</span><br>
+                Dev by <span>Rahmad Faujan</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============ CONFIG ============
+        const API_KEY_PITU = '7C0dE2bcff3';
+        const API_KEY_NAZE = 'nz-67eeea2bc6';
+        const API_PITU = 'https://api.pitucode.com/puzzle';
+        const API_NAZE_GAME = 'https://api.naze.biz.id/games';
+        const API_NAZE_AI = 'https://api.naze.biz.id/ai/chatgpt-5-mini';
+
+        let currentGame = null;
+        let currentAnswer = '';
+        let currentFamilyAnswers = [];
+        let foundFamilyAnswers = [];
+        let score = 0;
+        let soundEnabled = true;
+        let currentLang = 'id';
+
+        // ============ TRANSLATIONS ============
+        const translations = {
+            id: {
+                lobbyTitle: '🌍 DUNIA GAMES',
+                tebakkalimat: 'Tebak Kalimat',
+                tebakkalimat_sub: 'Lengkapi peribahasa',
+                tebakgambar: 'Tebak Gambar',
+                tebakgambar_sub: 'Tebak dari ilustrasi',
+                susunkata: 'Susun Kata',
+                susunkata_sub: 'Anagram jadi kata',
+                asahotak: 'Asah Otak',
+                asahotak_sub: 'Kuis pengetahuan',
+                tebaknegara: 'Tebak Negara',
+                tebaknegara_sub: 'Tebak dari petunjuk',
+                family100: 'Family 100',
+                family100_sub: 'Tebak semua jawaban',
+                aiBubble: '<strong>Hai!</strong> Selamat datang di <strong>DUNIA GAMES</strong>! Pilih permainan atau tanya aku pakai AI Chat ya~ 😜✨',
+                aiChatBtn: '🤖 ChatGPT 5 Mini — Tanya AI',
+                answerPlaceholder: 'Ketik jawabanmu...',
+                skip: '⏭️ Lewati',
+                jawab: 'Jawab',
+                back: '← Lobby',
+                clue_kalimat: 'Lengkapi peribahasa di atas',
+                clue_gambar: 'Perhatikan gambar baik-baik',
+                clue_susun: 'Susun huruf jadi kata',
+                clue_asah: 'Jawab pertanyaan ini',
+                clue_negara: 'Tebak nama negaranya!',
+                clue_family: 'Tebak semua jawaban yang mungkin!',
+                correct: '🎉 BENAR! Mantap!',
+                wrong: '❌ Salah, coba lagi!',
+                empty: '⚠️ Isi jawaban dulu!',
+                skipMsg: '⏭️ Dilewati. Jawaban: ',
+                score: 'Skor',
+                settings: '⚙️ Pengaturan',
+                sound: '🔊 Sound Effect',
+                music: '🎵 Musik Latar',
+            },
+            en: {
+                lobbyTitle: '🌍 GAME WORLD',
+                tebakkalimat: 'Guess Sentence',
+                tebakkalimat_sub: 'Complete the proverb',
+                tebakgambar: 'Guess Image',
+                tebakgambar_sub: 'Guess from illustration',
+                susunkata: 'Arrange Words',
+                susunkata_sub: 'Anagram to word',
+                asahotak: 'Brain Teaser',
+                asahotak_sub: 'Knowledge quiz',
+                tebaknegara: 'Guess Country',
+                tebaknegara_sub: 'Guess from clue',
+                family100: 'Family 100',
+                family100_sub: 'Guess all answers',
+                aiBubble: '<strong>Hey!</strong> Welcome to <strong>GAME WORLD</strong>! Pick a game or chat with AI~ 😜✨',
+                aiChatBtn: '🤖 ChatGPT 5 Mini — Ask AI',
+                answerPlaceholder: 'Type your answer...',
+                skip: '⏭️ Skip',
+                jawab: 'Answer',
+                back: '← Lobby',
+                clue_kalimat: 'Complete the proverb above',
+                clue_gambar: 'Look at the image carefully',
+                clue_susun: 'Arrange letters into word',
+                clue_asah: 'Answer this question',
+                clue_negara: 'Guess the country name!',
+                clue_family: 'Guess all possible answers!',
+                correct: '🎉 CORRECT! Awesome!',
+                wrong: '❌ Wrong, try again!',
+                empty: '⚠️ Fill answer first!',
+                skipMsg: '⏭️ Skipped. Answer: ',
+                score: 'Score',
+                settings: '⚙️ Settings',
+                sound: '🔊 Sound Effect',
+                music: '🎵 Background Music',
+            },
+            zh: {
+                lobbyTitle: '🌍 游戏世界',
+                tebakkalimat: '猜句子',
+                tebakkalimat_sub: '完成谚语',
+                tebakgambar: '猜图片',
+                tebakgambar_sub: '从插图猜测',
+                susunkata: '排列单词',
+                susunkata_sub: '字谜变单词',
+                asahotak: '脑筋急转弯',
+                asahotak_sub: '知识问答',
+                tebaknegara: '猜国家',
+                tebaknegara_sub: '从线索猜测',
+                family100: '家庭100',
+                family100_sub: '猜出所有答案',
+                aiBubble: '<strong>你好！</strong>欢迎来到<strong>游戏世界</strong>！选择游戏或与AI聊天~ 😜✨',
+                aiChatBtn: '🤖 ChatGPT 5 Mini — 询问AI',
+                answerPlaceholder: '输入答案...',
+                skip: '⏭️ 跳过',
+                jawab: '回答',
+                back: '← 大厅',
+                correct: '🎉 正确！太棒了！',
+                wrong: '❌ 错误，再试一次！',
+                empty: '⚠️ 请先填写答案！',
+                skipMsg: '⏭️ 已跳过。答案：',
+                score: '分数',
+                settings: '⚙️ 设置',
+                sound: '🔊 音效',
+                music: '🎵 背景音乐',
+            },
+            ko: {
+                lobbyTitle: '🌍 게임 월드',
+                tebakkalimat: '문장 맞추기',
+                tebakkalimat_sub: '속담 완성하기',
+                tebakgambar: '그림 맞추기',
+                tebakgambar_sub: '그림 보고 맞추기',
+                susunkata: '단어 배열',
+                susunkata_sub: '철자 맞추기',
+                asahotak: '두뇌 퀴즈',
+                asahotak_sub: '지식 퀴즈',
+                tebaknegara: '나라 맞추기',
+                tebaknegara_sub: '단서로 맞추기',
+                family100: '패밀리 100',
+                family100_sub: '모든 답 맞추기',
+                aiBubble: '<strong>안녕!</strong> <strong>게임 월드</strong>에 오신 걸 환영해요! 게임을 고르거나 AI와 대화하세요~ 😜✨',
+                aiChatBtn: '🤖 ChatGPT 5 Mini — AI에게 물어보기',
+                answerPlaceholder: '답변 입력...',
+                skip: '⏭️ 건너뛰기',
+                jawab: '제출',
+                back: '← 로비',
+                correct: '🎉 정답! 대단해요!',
+                wrong: '❌ 틀렸어요, 다시 시도!',
+                empty: '⚠️ 답변을 입력하세요!',
+                skipMsg: '⏭️ 건너뜀. 정답: ',
+                score: '점수',
+                settings: '⚙️ 설정',
+                sound: '🔊 효과음',
+                music: '🎵 배경 음악',
+            },
+            ja: {
+                lobbyTitle: '🌍 ゲームワールド',
+                tebakkalimat: '文章当て',
+                tebakkalimat_sub: 'ことわざを完成',
+                tebakgambar: '画像当て',
+                tebakgambar_sub: 'イラストから推測',
+                susunkata: '言葉並べ',
+                susunkata_sub: 'アナグラム',
+                asahotak: '脳トレ',
+                asahotak_sub: '知識クイズ',
+                tebaknegara: '国当て',
+                tebaknegara_sub: 'ヒントから推測',
+                family100: 'ファミリー100',
+                family100_sub: '全回答を当てる',
+                aiBubble: '<strong>こんにちは！</strong><strong>ゲームワールド</strong>へようこそ！ゲームを選ぶかAIと話してね~ 😜✨',
+                aiChatBtn: '🤖 ChatGPT 5 Mini — AIに質問',
+                answerPlaceholder: '答えを入力...',
+                skip: '⏭️ スキップ',
+                jawab: '回答',
+                back: '← ロビー',
+                correct: '🎉 正解！すごい！',
+                wrong: '❌ 不正解、もう一度！',
+                empty: '⚠️ 答えを入力してください！',
+                skipMsg: '⏭️ スキップ。答え: ',
+                score: 'スコア',
+                settings: '⚙️ 設定',
+                sound: '🔊 効果音',
+                music: '🎵 BGM',
+            }
+        };
+
+        function t(key) {
+            return translations[currentLang]?.[key] || translations['id'][key] || key;
+        }
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            updateAllTexts();
+            sfxClick();
+            showToast('🌐 Bahasa: ' + lang.toUpperCase());
+        }
+
+        function updateAllTexts() {
+            document.getElementById('lobbyTitle').textContent = t('lobbyTitle');
+            document.getElementById('bubbleText').innerHTML = t('aiBubble');
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (t(key)) el.textContent = t(key);
+            });
+            document.getElementById('answerInput').placeholder = t('answerPlaceholder');
+            const skipBtn = document.querySelector('#gameArea .btn-outline');
+            if (skipBtn) skipBtn.textContent = t('skip');
+            const jawabBtn = document.querySelector('#gameArea .btn.gold');
+            if (jawabBtn) jawabBtn.textContent = t('jawab');
+            const backBtns = document.querySelectorAll('.back-btn');
+            backBtns.forEach(b => { if (b.textContent.includes('Lobby') || b.textContent.includes('ロビー') || b
+                    .textContent.includes('大厅')) b.textContent = t('back'); });
+        }
+
+        // ============ AUDIO ============
+        const audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+
+        function playBeep(freq, type = 'sine', duration = 0.15, vol = 0.3) {
+            if (!soundEnabled) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(audioCtx.currentTime);
+            osc.stop(audioCtx.currentTime + duration);
+        }
+
+        function sfxCorrect() { playBeep(880, 'square', 0.1);
+            playBeep(1100, 'square', 0.15, 0.25); }
+
+        function sfxWrong() { playBeep(200, 'sawtooth', 0.3, 0.2); }
+
+        function sfxClick() { playBeep(600, 'sine', 0.05, 0.15); }
+
+        function sfxWin() {
+            [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => playBeep(f, 'square', 0.2, 0.25), i * 100));
+        }
+
+        // ============ PARTICLES ============
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 25; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (6 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 3000);
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const btn = document.getElementById('btnSound');
+            const toggle = document.getElementById('toggleSound');
+            btn.textContent = soundEnabled ? '🔊' : '🔇';
+            toggle.classList.toggle('on', soundEnabled);
+            sfxClick();
+            showToast(soundEnabled ? 'Sound ON 🔊' : 'Sound OFF 🔇');
+        }
+
+        function toggleMusic() {
+            const toggle = document.getElementById('toggleMusic');
+            toggle.classList.toggle('on');
+            sfxClick();
+            showToast('Music ' + (toggle.classList.contains('on') ? 'ON 🎵' : 'OFF'));
+        }
+
+        function toggleSettings() {
+            const panel = document.getElementById('settingsPanel');
+            const lobby = document.getElementById('lobby');
+            const gameArea = document.getElementById('gameArea');
+            const aiChat = document.getElementById('aiChatArea');
+            const btnSettings = document.getElementById('btnSettings');
+            const aiBubble = document.getElementById('aiBubble');
+
+            if (panel.classList.contains('hidden')) {
+                panel.classList.remove('hidden');
+                lobby.classList.add('hidden');
+                gameArea.classList.add('hidden');
+                aiChat.classList.add('hidden');
+                aiBubble.classList.add('hidden');
+                btnSettings.classList.add('active');
+            } else {
+                panel.classList.add('hidden');
+                lobby.classList.remove('hidden');
+                aiBubble.classList.remove('hidden');
+                btnSettings.classList.remove('active');
+            }
+            sfxClick();
+        }
+
+        // ============ API CALLS ============
+        async function fetchPituQuestion(type) {
+            try {
+                const res = await fetch(`${API_PITU}/${type}?apikey=${API_KEY_PITU}`);
+                const data = await res.json();
+                if (data.success) return data.result;
+                throw new Error('API gagal');
+            } catch (e) {
+                showToast('⚠️ Gagal ambil soal');
+                return null;
+            }
+        }
+
+        async function fetchNazeGame(type) {
+            try {
+                const res = await fetch(`${API_NAZE_GAME}/${type}?apikey=${API_KEY_NAZE}`);
+                const data = await res.json();
+                if (data.success) return data.result;
+                throw new Error('API gagal');
+            } catch (e) {
+                showToast('⚠️ Gagal ambil soal');
+                return null;
+            }
+        }
+
+        async function fetchAiResponse(query) {
+            try {
+                const res = await fetch(`${API_NAZE_AI}?query=${encodeURIComponent(query)}&apikey=${API_KEY_NAZE}`);
+                const data = await res.json();
+                if (data.success && data.result.response?.length) {
+                    return data.result.response[0][1] || 'Maaf, tidak ada respon.';
+                }
+                throw new Error('AI gagal');
+            } catch (e) {
+                return '⚠️ AI sedang sibuk, coba lagi nanti~';
+            }
+        }
+
+        // ============ START GAME ============
+        async function startGame(type) {
+            sfxClick();
+            document.getElementById('lobby').classList.add('hidden');
+            document.getElementById('aiChatArea').classList.add('hidden');
+            document.getElementById('settingsPanel').classList.add('hidden');
+            document.getElementById('aiBubble').classList.add('hidden');
+            document.getElementById('gameArea').classList.remove('hidden');
+            document.getElementById('answerInput').value = '';
+            document.getElementById('feedback').textContent = '';
+            document.getElementById('feedback').className = 'feedback';
+            document.getElementById('questionImg').classList.add('hidden');
+            document.getElementById('familyAnswers').classList.add('hidden');
+            document.getElementById('inputGroup').classList.remove('hidden');
+            foundFamilyAnswers = [];
+
+            currentGame = type;
+
+            if (type === 'tebaknegara') {
+                const data = await fetchNazeGame('tebaknegara');
+                if (!data) return backToLobby();
+                currentAnswer = data.negara.trim().toLowerCase();
+                document.getElementById('gameTitle').textContent = '🌍 ' + t('tebaknegara');
+                document.getElementById('questionText').textContent = '📍 ' + data.tempat;
+                document.getElementById('questionClue').textContent = t('clue_negara');
+            } else if (type === 'family100') {
+                const data = await fetchNazeGame('family100');
+                if (!data) return backToLobby();
+                currentFamilyAnswers = data.jawaban.map(j => j.trim().toLowerCase());
+                currentAnswer = '';
+                document.getElementById('gameTitle').textContent = '👨‍👩‍👧‍👦 ' + t('family100');
+                document.getElementById('questionText').textContent = data.soal;
+                document.getElementById('questionClue').textContent = t('clue_family');
+                document.getElementById('inputGroup').classList.remove('hidden');
+                renderFamilyAnswers();
+            } else {
+                const data = await fetchPituQuestion(type);
+                if (!data) return backToLobby();
+                currentAnswer = data.jawaban.trim().toLowerCase();
+                switch (type) {
+                    case 'tebakkalimat':
+                        document.getElementById('gameTitle').textContent = '💬 ' + t('tebakkalimat');
+                        document.getElementById('questionText').textContent = data.soal;
+                        document.getElementById('questionClue').textContent = t('clue_kalimat');
+                        break;
+                    case 'tebakgambar':
+                        document.getElementById('gameTitle').textContent = '🖼️ ' + t('tebakgambar');
+                        document.getElementById('questionText').textContent = data.deskripsi || 'Apa jawabannya?';
+                        document.getElementById('questionClue').textContent = t('clue_gambar');
+                        document.getElementById('questionImg').src = data.img;
+                        document.getElementById('questionImg').classList.remove('hidden');
+                        break;
+                    case 'susunkata':
+                        document.getElementById('gameTitle').textContent = '🔤 ' + t('susunkata');
+                        document.getElementById('questionText').textContent = data.soal;
+                        document.getElementById('questionClue').textContent = t('clue_susun') + ': ' + (data
+                            .tipe || 'Umum');
+                        break;
+                    case 'asahotak':
+                        document.getElementById('gameTitle').textContent = '🧠 ' + t('asahotak');
+                        document.getElementById('questionText').textContent = data.soal;
+                        document.getElementById('questionClue').textContent = t('clue_asah');
+                        break;
+                }
+            }
+            document.getElementById('answerInput').placeholder = t('answerPlaceholder');
+            document.getElementById('answerInput').focus();
+        }
+
+        function renderFamilyAnswers() {
+            const container = document.getElementById('familyAnswers');
+            container.innerHTML = '';
+            container.classList.remove('hidden');
+            currentFamilyAnswers.forEach(ans => {
+                const div = document.createElement('div');
+                div.className = 'answer-item';
+                div.textContent = '❓ ???';
+                div.setAttribute('data-answer', ans);
+                container.appendChild(div);
+            });
+        }
+
+        function submitAnswer() {
+            if (!currentGame) return;
+            const input = document.getElementById('answerInput').value.trim().toLowerCase();
+            const fb = document.getElementById('feedback');
+
+            if (!input) {
+                fb.textContent = t('empty');
+                fb.className = 'feedback wrong';
+                sfxWrong();
+                return;
+            }
+
+            if (currentGame === 'family100') {
+                if (foundFamilyAnswers.includes(input)) {
+                    fb.textContent = '⚠️ Sudah ditebak!';
+                    fb.className = 'feedback wrong';
+                    sfxWrong();
+                    return;
+                }
+                if (currentFamilyAnswers.includes(input)) {
+                    foundFamilyAnswers.push(input);
+                    fb.textContent = '✅ Benar! ' + input.toUpperCase();
+                    fb.className = 'feedback correct';
+                    score++;
+                    document.getElementById('scoreCount').textContent = score;
+                    sfxCorrect();
+                    // Update answer list
+                    const items = document.querySelectorAll('#familyAnswers .answer-item');
+                    items.forEach(item => {
+                        if (item.getAttribute('data-answer') === input) {
+                            item.textContent = '✅ ' + input.toUpperCase();
+                            item.classList.add('found');
+                        }
+                    });
+                    if (foundFamilyAnswers.length === currentFamilyAnswers.length) {
+                        sfxWin();
+                        showToast('🏆 SEMUA BENAR!');
+                        setTimeout(() => nextQuestion(), 2000);
+                    }
+                } else {
+                    fb.textContent = t('wrong');
+                    fb.className = 'feedback wrong';
+                    sfxWrong();
+                }
+                document.getElementById('answerInput').value = '';
+                document.getElementById('answerInput').focus();
+                return;
+            }
+
+            if (input === currentAnswer) {
+                fb.textContent = t('correct');
+                fb.className = 'feedback correct';
+                score++;
+                document.getElementById('scoreCount').textContent = score;
+                sfxCorrect();
+                sfxWin();
+                showToast('✅ +1 ⭐');
+                setTimeout(() => nextQuestion(), 1500);
+            } else {
+                fb.textContent = t('wrong');
+                fb.className = 'feedback wrong';
+                sfxWrong();
+                document.getElementById('answerInput').value = '';
+                document.getElementById('answerInput').focus();
+            }
+        }
+
+        async function skipQuestion() {
+            sfxClick();
+            if (currentGame === 'family100') {
+                showToast(t('skipMsg') + currentFamilyAnswers.join(', ').toUpperCase());
+            } else {
+                showToast(t('skipMsg') + currentAnswer.toUpperCase());
+            }
+            await nextQuestion();
+        }
+
+        async function nextQuestion() {
+            document.getElementById('answerInput').value = '';
+            document.getElementById('feedback').textContent = '';
+            document.getElementById('feedback').className = 'feedback';
+            document.getElementById('questionImg').classList.add('hidden');
+            document.getElementById('familyAnswers').classList.add('hidden');
+            foundFamilyAnswers = [];
+
+            if (currentGame === 'tebaknegara') {
+                const data = await fetchNazeGame('tebaknegara');
+                if (!data) return backToLobby();
+                currentAnswer = data.negara.trim().toLowerCase();
+                document.getElementById('questionText').textContent = '📍 ' + data.tempat;
+            } else if (currentGame === 'family100') {
+                const data = await fetchNazeGame('family100');
+                if (!data) return backToLobby();
+                currentFamilyAnswers = data.jawaban.map(j => j.trim().toLowerCase());
+                document.getElementById('questionText').textContent = data.soal;
+                renderFamilyAnswers();
+            } else {
+                const data = await fetchPituQuestion(currentGame);
+                if (!data) return backToLobby();
+                currentAnswer = data.jawaban.trim().toLowerCase();
+                switch (currentGame) {
+                    case 'tebakkalimat':
+                        document.getElementById('questionText').textContent = data.soal;
+                        break;
+                    case 'tebakgambar':
+                        document.getElementById('questionText').textContent = data.deskripsi || 'Apa jawabannya?';
+                        document.getElementById('questionImg').src = data.img;
+                        document.getElementById('questionImg').classList.remove('hidden');
+                        break;
+                    case 'susunkata':
+                        document.getElementById('questionText').textContent = data.soal;
+                        document.getElementById('questionClue').textContent = t('clue_susun') + ': ' + (data
+                            .tipe || 'Umum');
+                        break;
+                    case 'asahotak':
+                        document.getElementById('questionText').textContent = data.soal;
+                        break;
+                }
+            }
+            document.getElementById('answerInput').focus();
+        }
+
+        function backToLobby() {
+            sfxClick();
+            currentGame = null;
+            document.getElementById('gameArea').classList.add('hidden');
+            document.getElementById('aiChatArea').classList.add('hidden');
+            document.getElementById('settingsPanel').classList.add('hidden');
+            document.getElementById('lobby').classList.remove('hidden');
+            document.getElementById('aiBubble').classList.remove('hidden');
+        }
+
+        // ============ AI CHAT ============
+        function openAiChat() {
+            sfxClick();
+            document.getElementById('lobby').classList.add('hidden');
+            document.getElementById('aiBubble').classList.add('hidden');
+            document.getElementById('gameArea').classList.add('hidden');
+            document.getElementById('settingsPanel').classList.add('hidden');
+            document.getElementById('aiChatArea').classList.remove('hidden');
+            document.getElementById('aiInput').focus();
+        }
+
+        async function askAi() {
+            const input = document.getElementById('aiInput').value.trim();
+            if (!input) return;
+            const box = document.getElementById('aiResponseBox');
+            box.innerHTML += `<div class="user-msg">👤 <strong>Kamu:</strong> ${input}</div>`;
+            box.innerHTML += `<div class="bot-msg">🤖 <strong>AI:</strong> ⏳ Berpikir...</div>`;
+            box.scrollTop = box.scrollHeight;
+            document.getElementById('aiInput').value = '';
+
+            const response = await fetchAiResponse(input);
+            // Remove last thinking message
+            const botMsgs = box.querySelectorAll('.bot-msg');
+            if (botMsgs.length) botMsgs[botMsgs.length - 1].remove();
+            box.innerHTML += `<div class="bot-msg">🤖 <strong>AI:</strong> ${response}</div>`;
+            box.scrollTop = box.scrollHeight;
+            sfxClick();
+        }
+
+        // ============ EVENT LISTENERS ============
+        document.getElementById('btnSound').addEventListener('click', toggleSound);
+        document.getElementById('toggleSound').addEventListener('click', toggleSound);
+        document.getElementById('toggleMusic').addEventListener('click', toggleMusic);
+        document.getElementById('btnSettings').addEventListener('click', toggleSettings);
+        document.getElementById('answerInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') submitAnswer();
+        });
+        document.getElementById('aiInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') askAi();
+        });
+
+        // ============ INIT ============
+        createParticles();
+        updateAllTexts();
+        document.getElementById('scoreCount').textContent = score;
+        console.log('🎮 Xvlover Game Hub v2.0 Premium Ready');
+        console.log('🌍 DUNIA GAMES | Multi-Bahasa | AI Chat');
+        console.log('🔥 API by @pitucode & @naze.biz.id | Dev by Rahmad Faujan');
+    </script>
+</body>
+</html>
